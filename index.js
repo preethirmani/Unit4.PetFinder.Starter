@@ -7,12 +7,17 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 8080;
+const cors = require('cors');
 
+
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({ extended: true}))
 // GET - / - returns homepage
 app.get('/', (req, res) => {
-    // serve up the public folder as static index.html file
-    res.render('index.html');
+  //res.json(pets);
+  res.sendFile(__dirname + "/public/dist/index.html");
 
 });
 
@@ -29,13 +34,13 @@ app.get('/api/v1/pets', (req, res) => {
 });
 
 // get pet by owner with query string
-app.get('/api/v1/pets/owner/:ownerName', (req, res) => {
+app.get('/api/v1/pets/owner', (req, res) => {
     // get the owner from the request
-    const owner = req.params.ownerName;
+    const owner = req.query.owner;
     console.log(owner)
 
     // find the pet in the pets array
-    const pet = pets.find(pet => pet.owner === owner);
+    const pet = pets.find(pet => pet.owner.toLowerCase() === owner.toLowerCase());
 
     // send the pet as a response
     res.send(pet);
@@ -50,7 +55,7 @@ app.get('/api/v1/pets/:name', (req, res) => {
 
 
     // find the pet in the pets array
-    const pet = pets.find(pet => pet.name === name);
+    const pet = pets.find(pet => pet.name.toLowerCase() === name.toLowerCase());
 
     // send the pet as a response
     res.send(pet);

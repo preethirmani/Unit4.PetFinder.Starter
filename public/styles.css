@@ -1,0 +1,19 @@
+body{
+  background-color: rgb(177, 244, 246);
+}
+
+h1 {
+  text-align: center;
+}
+
+div {
+ 
+  border: 1px solid rgb(159, 154, 154);
+  
+}
+
+p {
+  margin: 2px;
+  padding: 2px;
+}
+
